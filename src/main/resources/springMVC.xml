@@ -10,7 +10,7 @@
     <!--启动注解识别-->
     <context:annotation-config/>
 
-    <context:component-scan base-package="com.how2java.tmall.controller">
+    <context:component-scan base-package="com.zxfdospy.tmall.controller">
         <context:include-filter type="annotation"
                                 expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
@@ -22,7 +22,7 @@
         <!--转换器-->
         <property name="converters">
             <list>
-                <bean class="com.how2java.tmall.util.PriceConvertUtil"/>
+                <bean class="com.zxfdospy.tmall.util.PriceConvertUtil"/>
             </list>
         </property>
     </bean>
@@ -44,16 +44,16 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/fore*"/>
-            <bean class="com.how2java.tmall.interceptor.LoginInterceptor"/>
+            <bean class="com.zxfdospy.tmall.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/fore*"/>
-            <bean class="com.how2java.tmall.interceptor.OtherInterceptor"/>
+            <bean class="com.zxfdospy.tmall.interceptor.OtherInterceptor"/>
         </mvc:interceptor>
 
         <mvc:interceptor>
             <mvc:mapping path="/admin_*"/>
-            <bean class="com.how2java.tmall.interceptor.AdminInterceptor"/>
+            <bean class="com.zxfdospy.tmall.interceptor.AdminInterceptor"/>
         </mvc:interceptor>
 
 

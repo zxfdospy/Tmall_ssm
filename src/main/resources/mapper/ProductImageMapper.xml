@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.how2java.tmall.mapper.ProductImageMapper">
-  <resultMap id="BaseResultMap" type="com.how2java.tmall.pojo.ProductImage">
+<mapper namespace="com.zxfdospy.tmall.mapper.ProductImageMapper">
+  <resultMap id="BaseResultMap" type="com.zxfdospy.tmall.pojo.ProductImage">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="pid" jdbcType="INTEGER" property="pid" />
     <result column="type" jdbcType="VARCHAR" property="type" />
@@ -39,7 +39,7 @@
   <sql id="Base_Column_List">
     id, pid, type, location
   </sql>
-  <select id="selectByExample" parameterType="com.how2java.tmall.pojo.ProductImageExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.zxfdospy.tmall.pojo.ProductImageExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -64,13 +64,13 @@
     delete from productimage
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.how2java.tmall.pojo.ProductImage" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zxfdospy.tmall.pojo.ProductImage" useGeneratedKeys="true">
     insert into productimage (pid, type, location
       )
     values (#{pid,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{location,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.how2java.tmall.pojo.ProductImage" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zxfdospy.tmall.pojo.ProductImage" useGeneratedKeys="true">
     insert into productimage
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="pid != null">
@@ -95,7 +95,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.how2java.tmall.pojo.ProductImage">
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxfdospy.tmall.pojo.ProductImage">
     update productimage
     <set>
       <if test="pid != null">
@@ -110,7 +110,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.how2java.tmall.pojo.ProductImage">
+  <update id="updateByPrimaryKey" parameterType="com.zxfdospy.tmall.pojo.ProductImage">
     update productimage
     set pid = #{pid,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
