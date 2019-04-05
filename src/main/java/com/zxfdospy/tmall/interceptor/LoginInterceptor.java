@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.zxfdospy.tmall.util.CookieUtil;
+import com.zxfdospy.tmall.util.JsonUtil;
+import com.zxfdospy.tmall.util.RedisPoolUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
@@ -56,13 +59,32 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         String method = StringUtils.substringAfterLast(uri, "/fore");
         if (!Arrays.asList(noNeedAuthPage).contains(method)) {
-            User user = (User) session.getAttribute("user");
+            User user = null;
+            String usertoken = CookieUtil.readLoginToken(request, CookieUtil.COOKIE_NAME_USER);
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(usertoken)) {
+                String userstr = RedisPoolUtil.get(usertoken);
+                user = JsonUtil.string2Obj(userstr, User.class);
+            }
+//            User user = (User) session.getAttribute("user");
             if (null == user) {
                 response.sendRedirect("loginPage");
                 return false;
+            }else {
+                RedisPoolUtil.expire(usertoken,60*30);
+                return true;
             }
         }
-
+        User user = null;
+        String usertoken = CookieUtil.readLoginToken(request, CookieUtil.COOKIE_NAME_USER);
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(usertoken)) {
+            String userstr = RedisPoolUtil.get(usertoken);
+            user = JsonUtil.string2Obj(userstr, User.class);
+        }
+        if(user!=null){
+            RedisPoolUtil.expire(usertoken,60*30);
+            user.setPassword("");
+            session.setAttribute("user",user);
+        }
         return true;
 
     }

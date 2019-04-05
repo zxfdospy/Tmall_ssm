@@ -1,6 +1,10 @@
 package com.zxfdospy.tmall.pojo;
 
-public class User {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.io.Serializable;
+
+public class User implements Serializable {
     private Integer id;
 
     private String name;
@@ -33,6 +37,7 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
+    @JsonIgnore
     public String getAnonymousName(){
         if(null==name)
             return null;

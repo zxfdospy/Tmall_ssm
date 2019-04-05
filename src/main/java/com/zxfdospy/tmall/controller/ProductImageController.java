@@ -41,12 +41,11 @@ public class ProductImageController {
         String imageFolder_middle = null;
         if (ProductImageService.type_single.equals(pi.getType())) {
 //            imageFolder = session.getServletContext().getRealPath("img/productSingle");
-            imageFolder = "D:\\project\\public\\img\\productSingle";
-            imageFolder_small = "D:\\project\\public\\img\\productSingle_small";
-            imageFolder_middle = "D:\\project\\public\\img\\productSingle_middle";
-        } else {
-            imageFolder = "D:\\project\\public\\img\\productDetail";
-        }
+            imageFolder = "/home/tmall_public_resources/img/productSingle";
+            imageFolder_small = "/home/tmall_public_resources/img/productSingle_small";
+            imageFolder_middle ="/home/tmall_public_resources/img/productSingle_middle";
+        } else
+            imageFolder = "/home/tmall_public_resources/img/productDetail";
 
         File f = new File(imageFolder, fileName);
         f.getParentFile().mkdirs();
@@ -74,14 +73,14 @@ public class ProductImageController {
         ProductImage pi = productImageService.get(id);
 
         String fileName = pi.getId() + ".jpg";
-        String imageFolder;
+        String imageFolder=null;
         String imageFolder_small = null;
         String imageFolder_middle = null;
 
         if (ProductImageService.type_single.equals(pi.getType())) {
-            imageFolder = "D:\\project\\public\\img\\productSingle";
-            imageFolder_small = "D:\\project\\public\\img\\productSingle_small";
-            imageFolder_middle = "D:\\project\\public\\img\\productSingle_middle";
+            imageFolder = "/home/tmall_public_resources/img/productSingle";
+            imageFolder_small = "/home/tmall_public_resources/img/productSingle_small";
+            imageFolder_middle = "/home/tmall_public_resources/img/productSingle_middle";
             File imageFile = new File(imageFolder, fileName);
             File f_small = new File(imageFolder_small, fileName);
             File f_middle = new File(imageFolder_middle, fileName);
@@ -90,7 +89,7 @@ public class ProductImageController {
             f_middle.delete();
 
         } else {
-            imageFolder = "D:\\project\\public\\img\\productDetail";
+            imageFolder = "/home/tmall_public_resources/img/productDetail";
             File imageFile = new File(imageFolder, fileName);
             imageFile.delete();
         }

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
- 
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,7 +54,8 @@ public class OtherInterceptor extends HandlerInterceptorAdapter {
         /*这里是获取当前的contextPath:tmall_ssm,用与放在左上角那个变形金刚，点击之后才能够跳转到首页，否则点击之后也仅仅停留在当前页面*/
         HttpSession session = request.getSession();
         String contextPath=session.getServletContext().getContextPath();
-        request.getSession().setAttribute("contextPath", contextPath);
+        request.getSession().setAttribute("contextPath","/");
+//        request.getSession().setAttribute("contextPath", contextPath);
  
         /*这里是获取购物车中一共有多少数量*/
         User user =(User)  session.getAttribute("user");

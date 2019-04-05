@@ -3,7 +3,11 @@ package com.zxfdospy.tmall.controller;
 import com.github.pagehelper.PageHelper;
 import com.zxfdospy.tmall.pojo.*;
 import com.zxfdospy.tmall.service.*;
+import com.zxfdospy.tmall.util.CookieUtil;
+import com.zxfdospy.tmall.util.JsonUtil;
+import com.zxfdospy.tmall.util.RedisPoolUtil;
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.taglibs.standard.lang.jstl.test.PageContextImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
- 
+import java.util.UUID;
+
 @Controller
 public class ForeController {
     @Autowired
@@ -67,7 +74,7 @@ public class ForeController {
     }
 
     @RequestMapping("forelogin")
-    public String login(@RequestParam("name") String name, @RequestParam("password") String password, Model model, HttpSession session) {
+    public String login(@RequestParam("name") String name, @RequestParam("password") String password, Model model, HttpSession session, HttpServletResponse response) {
         name = HtmlUtils.htmlEscape(name);
         User user = userService.get(name,password);
 
@@ -75,12 +82,23 @@ public class ForeController {
             model.addAttribute("msg", "账号密码错误");
             return "fore/login";
         }
-        session.setAttribute("user", user);
+
+//        redis存储状态
+
+        String useruuid= UUID.randomUUID().toString();
+        CookieUtil.writeLoginToken(response,CookieUtil.COOKIE_NAME_USER,useruuid);
+        RedisPoolUtil.setEx(useruuid, JsonUtil.obj2String(user),60*30);//30分钟失效
+        user.setPassword("");
+        session.setAttribute("user",user);
+
+//        session.setAttribute("user", user);
         return "redirect:forehome";
     }
 
     @RequestMapping("forelogout")
-    public String logout( String now,HttpSession session) {
+    public String logout(String now, HttpSession session, HttpServletRequest request) {
+        String usertoken=CookieUtil.readLoginToken(request,CookieUtil.COOKIE_NAME_USER);
+        RedisPoolUtil.del(usertoken);
         session.removeAttribute("user");
         return "redirect:"+now;
     }

@@ -23,9 +23,9 @@
 </script>
 
 <div class="footer text-center">
-    <div class="label label-warning">zxfdospy&how2j版权所有</div>
+    <div class="label label-warning">zxfdospy@gmail.com</div>
     <div class="label label-primary" id="timeDiv">
-        <jsp:useBean id="time" class="java.util.Date"/>
+        <%--<jsp:useBean id="time" class="java.util.Date"/>--%>
         ${time}
     </div>
 
